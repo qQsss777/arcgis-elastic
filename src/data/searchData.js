@@ -11,10 +11,10 @@ const searchData = async (params, query) => {
             body: queryEs,
             size: 10
         });
-        return { state: "succeed", data: { fields: fields, source: body.hits.hits } };
+        return { state: true, data: { fields: fields, source: body.hits.hits } };
     }
     catch (e) {
-        return e.meta ? { state: "failed", data: e.meta.body.error.type } : { state: "failed", data: {} };
+        return e.meta ? { state: false, data: e.meta.body.error.type } : { state: false, data: {} };
     }
 };
 

@@ -8,14 +8,15 @@ const getCacheData = async (params, client) => {
     const fieldDate = `${params.dataset}-date`;
     const typeGeometry = `${params.dataset}-geom`;
 
-    //check if keys and values exist
-    const dateCache = await redisCache.rangeAsync(fieldDate, 0, -1);
-    const geomCache = await redisCache.rangeAsync(typeGeometry, 0, -1);
+    //delete method for dev and tests
+    //redisCache.delete(fieldDate);
+    //redisCache.delete(typeGeometry);
+    const dateExists = await redisCache.existsAsync(fieldDate);
+    const typeGoemExists = await redisCache.existsAsync(typeGeometry);
 
     //if not, get field mapping, set value to redis db and return object with value
-    if (!dateCache || !geomCache) {
+    if (dateExists === 0 && typeGoemExists === 0) {
         try {
-
             //get mapping information
             const { body } = await client.indices.getMapping({ index: params.dataset });
 
@@ -34,11 +35,12 @@ const getCacheData = async (params, client) => {
             redisCache.end();
             return { dates: dateListFields, geom: geometry };
         } catch (e) {
-            return { state: "failed", data: e };
+            return { state: false, data: e };
         }
     } else {
-
         //stop connection
+        const dateCache = await redisCache.rangeAsync(fieldDate, 0, -1);
+        const geomCache = await redisCache.rangeAsync(typeGeometry, 0, -1);
         redisCache.end();
         return { dates: dateCache, geom: geomCache };
     }

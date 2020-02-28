@@ -1,7 +1,7 @@
 "use strict";
 const redis = require("redis");
 const promisify = require("util").promisify;
-const config = require("../config.json")
+const config = require("../config.json");
 
 class RedisCache {
     constructor() {
@@ -48,6 +48,17 @@ class RedisCache {
         const rangeAsync = promisify(this._client.lrange).bind(this._client);
         try {
             const value = await rangeAsync(key, start, end);
+            return value;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    async existsAsync(key) {
+        const existsAsync = promisify(this._client.exists).bind(this._client);
+        try {
+            const value = await existsAsync(key);
             return value;
         }
         catch (e) {

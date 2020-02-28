@@ -16,12 +16,14 @@ const getSchemaData = async (params, client) => {
             const data = body[params.dataset].mappings.properties;
             const schema = await convertGeoType(data);
             await redisCache.setAsync(schemaCache, JSON.stringify(schema));
+            redisCache.end();
             return schema;
         }
         catch (e) {
-            return { state: "failed", data: e };
+            return { state: false, data: e };
         }
     } else {
+        redisCache.end();
         return schemaCached;
     }
 };
