@@ -1,1 +1,1 @@
-# elasticsearch-app-travel
+# ArcGIS connector for Elasticsearch
