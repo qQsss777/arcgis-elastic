@@ -20,7 +20,7 @@ export const formatEsriGeoJSON = async (obj: IResultsData) => {
         //push features to the Esri GeoJSON
         for (let i = 0; i < jsonSource.length; i++) {
             const ft = jsonSource[i];
-            const features: IFeature = await modelGeoJson(ft, geom[1], geom[0], dates);
+            const features: IFeature = await modelGeoJson(ft, geom[0], geom[1], dates);
             esriGeoJSON.features.push(features);
         }
         return esriGeoJSON;

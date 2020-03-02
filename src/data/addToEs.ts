@@ -25,7 +25,6 @@ export const addToEs = async (obj: IPostData) => {
                 }
             });
             results = erroredDocuments;
-            console.log(results)
         } else {
             results = {};
         }

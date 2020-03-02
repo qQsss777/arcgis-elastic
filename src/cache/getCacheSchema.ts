@@ -6,15 +6,12 @@ export const getCacheSchema = async (obj: ICacheData) => {
     //connect to redis db
     const redisCache = new RedisCache();
     const schemaCache = `${obj.dataset}-schema`;
-    console.log(schemaCache)
     redisCache.delete(schemaCache);
     //check if keys and values exist
     const schemaCached = await redisCache.getAsync(schemaCache);
     //if not, get field mapping, set value to redis db and return object with value
     if (!schemaCached) {
         try {
-            console.log("get cache => ")
-
             //get mapping information
             const { body } = await obj.connection.indices.getMapping({ index: "deplacements" });
             const data = body[obj.dataset].mappings.properties;
@@ -44,7 +41,7 @@ const convertGeoType = async (obj: any) => {
     for (let i = 0; i < schemaValues.length; i++) {
         const key: string = schemaKeys[i];
         const val: any = schemaValues[i];
-        const typeOfGoem = typeGeom.includes(val.type) ? allowedTypes : val.type;
+        const typeOfGoem = typeGeom.includes(val.type) ? val.type : allowedTypes;
         const typeUpdated = typeKeyword.includes(val.type) ? "string" : typeOfGoem;
         schemaUpdated[key] = { type: typeUpdated };
     };

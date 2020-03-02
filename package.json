@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon --watch src -e ts,tsx --exec ts-node src/index.ts",
-    "build": "tsc",
-    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "copy-config": "copyfiles -f ./src/config.json ./dist",
+    "build": "tsc && npm run copy-config",
     "serve": "node dist/index.js",
     "start": "npm run serve",
     "test": "mocha -r ts-node/register src/tests/test.ts"
@@ -32,6 +32,7 @@
     "@types/redis": "^2.8.16",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "copyfiles": "^2.2.0",
     "eslint": "^6.8.0",
     "mocha": "^7.0.1",
     "nodemon": "^2.0.2",

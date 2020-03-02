@@ -7,7 +7,6 @@ export const modelGeoJson = async (feature: any, typeGeom: string, geomField: st
 
     //get geometry type for geo_point
     const type = typeGeom === "geo_point" ? "Point" : typeGeom;
-    console.log(type);
     //init an Esri feature json
     const esriFeature: IFeature = {
         type: "Feature",

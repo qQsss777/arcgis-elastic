@@ -35,28 +35,29 @@ export const testsSchema = () => {
                     });
             });
             /*
-                        it("should be a success for esri feature API", (done) => {
-                            chai.request(server)
-                                .post("/deplacements/add")
-                                .send({
-                                    "geometry": { "x": -118.15, "y": 33.80 },
-                                    "attributes": {
-                                        "prenom": "Marc",
-                                        "nom": "Le Moigne",
-                                        "email": "mlm@demoESArcGIS.fr",
-                                        "rattachement": "Meudon",
-                                        "deplacement": "Brest",
-                                        "date": "2020-04-25"
-                                    }
-                                })
-                                .end((err, res) => {
-                                    expect(err).to.be.null;
-                                    expect(res).to.have.status(200);
-                                    expect(res.body).to.deep.include({ state: true });
-                                    done();
-                                });
-                        });
-            
+            it("should be a success for esri feature API", (done) => {
+                chai.request(server)
+                    .post("/deplacements/add")
+                    .send({
+                        "geometry": { "x": -118.15, "y": 33.80 },
+                        "attributes": {
+                            "prenom": "Marc",
+                            "nom": "Le Moigne",
+                            "email": "mlm@demoESArcGIS.fr",
+                            "rattachement": "Meudon",
+                            "deplacement": "Brest",
+                            "date": "2020-04-25"
+                        }
+                    })
+                    .end((err, res) => {
+                        expect(err).to.be.null;
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.deep.include({ state: true });
+                        done();
+                    });
+            });
+            */
+            /*
                         it("should be a success for array geom", (done) => {
                             chai.request(server)
                                 .post("/deplacements/add")
