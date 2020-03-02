@@ -1,17 +1,19 @@
-const client = require("./connection");
-const formatBulk = require("../utils/formatBulk");
-const addToEs = async (params, data) => {
+import { client } from '../data';
+import { formatBulk } from '../utils';
+import { IPostData } from '../interfaces';
+
+export const addToEs = async (obj: IPostData) => {
     try {
-        const dataToBulk = await formatBulk(params, data, client);
+        const dataToBulk = await formatBulk({ dataset: obj.dataset, data: obj.data });
         const { body } = await client.bulk({
-            index: params.dataset,
+            index: obj.dataset,
             body: dataToBulk
         });
         let results;
         const state = body.errors ? false : true;
         if (body.errors) {
-            const erroredDocuments = [];
-            body.items.forEach((action, i) => {
+            const erroredDocuments: Array<object> = [];
+            body.items.forEach((action: any, i: number) => {
                 const operation = Object.keys(action)[0];
                 if (action[operation].error) {
                     erroredDocuments.push({
@@ -23,6 +25,7 @@ const addToEs = async (params, data) => {
                 }
             });
             results = erroredDocuments;
+            console.log(results)
         } else {
             results = {};
         }
@@ -32,5 +35,3 @@ const addToEs = async (params, data) => {
         return e.meta ? { state: false, data: e.meta.body.error.type } : { state: false, data: {} };
     }
 };
-
-module.exports = addToEs;

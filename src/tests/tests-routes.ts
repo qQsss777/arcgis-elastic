@@ -1,14 +1,12 @@
-"use strict";
-// Import the dependencies for testing
-let chai = require("chai");
-let chaiHttp = require("chai-http");
-let { server } = require("../index");
+import * as chai from 'chai';
+import chaiHttp = require('chai-http');
+import { server } from "../index";
+
+chai.use(chaiHttp);
+chai.should();
 const expect = chai.expect;
 
-const testsRoutes = () => {
-    // Configure chai
-    chai.use(chaiHttp);
-    chai.should();
+export const testsRoutes = () => {
     describe("Search", () => {
         describe("GET /deplacements/search", () => {
             it("should be a success", (done) => {
@@ -53,5 +51,3 @@ const testsRoutes = () => {
     });
 
 };
-
-module.exports = testsRoutes;

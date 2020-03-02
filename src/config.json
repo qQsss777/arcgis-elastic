@@ -2,14 +2,14 @@
     "server": {
         "host": "127.0.0.1",
         "port": 3001,
-        "log": "pathtotxt"
+        "log": "C:\\_personnel\\appDeplacement\\Developpement\\arcgis-elastic\\log.txt"
     },
     "elastic": {
         "protocol": "http",
-        "host": "HOST",
+        "host": "demodataiku.esrifrance.fr",
         "port": 9200,
-        "username": "USERNAME",
-        "password": "PWD"
+        "username": "elastic",
+        "password": "123Azerty!"
     },
     "redis": {
         "port": 6379

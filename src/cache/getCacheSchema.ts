@@ -1,49 +1,52 @@
-const RedisCache = require("./Cache");
+import { RedisCache } from './Cache';
+import { ICacheData } from '../interfaces';
 
-const getSchemaData = async (params, client) => {
+export const getCacheSchema = async (obj: ICacheData) => {
 
     //connect to redis db
     const redisCache = new RedisCache();
-    const schemaCache = `${params.dataset}-schema`;
+    const schemaCache = `${obj.dataset}-schema`;
+    console.log(schemaCache)
     redisCache.delete(schemaCache);
     //check if keys and values exist
     const schemaCached = await redisCache.getAsync(schemaCache);
     //if not, get field mapping, set value to redis db and return object with value
     if (!schemaCached) {
         try {
+            console.log("get cache => ")
+
             //get mapping information
-            const { body } = await client.indices.getMapping({ index: params.dataset });
-            const data = body[params.dataset].mappings.properties;
+            const { body } = await obj.connection.indices.getMapping({ index: "deplacements" });
+            const data = body[obj.dataset].mappings.properties;
             const schema = await convertGeoType(data);
             await redisCache.setAsync(schemaCache, JSON.stringify(schema));
             redisCache.end();
             return schema;
         }
         catch (e) {
+            console.log(e)
             return { state: false, data: e };
         }
     } else {
         redisCache.end();
-        return schemaCached;
+        return JSON.parse(schemaCached);
     }
 };
 
-const convertGeoType = async (obj) => {
+const convertGeoType = async (obj: any) => {
     const typeGeom = ["geo_point", "point", "polyline", "polygon"];
     const typeKeyword = ["keyword", "text", "date"];
     const allowedTypes = "any";
     const schemaValues = Object.values(obj);
     const schemaKeys = Object.keys(obj);
-    const schemaUpdated = {};
+    const schemaUpdated: any = {};
 
     for (let i = 0; i < schemaValues.length; i++) {
-        const key = schemaKeys[i];
-        const val = schemaValues[i];
+        const key: string = schemaKeys[i];
+        const val: any = schemaValues[i];
         const typeOfGoem = typeGeom.includes(val.type) ? allowedTypes : val.type;
         const typeUpdated = typeKeyword.includes(val.type) ? "string" : typeOfGoem;
         schemaUpdated[key] = { type: typeUpdated };
     };
     return schemaUpdated;
 };
-
-module.exports = getSchemaData;

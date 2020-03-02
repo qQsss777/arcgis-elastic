@@ -1,16 +1,18 @@
-const RedisCache = require("./Cache");
+import { RedisCache } from './Cache';
+import { ICacheData, ICacheDataResult } from '../interfaces';
 
-const getCacheData = async (params, client) => {
+export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> => {
     //connect to redis db
     const redisCache = new RedisCache();
 
     //format key
-    const fieldDate = `${params.dataset}-date`;
-    const typeGeometry = `${params.dataset}-geom`;
+    const fieldDate: string = `${obj.dataset}-date`;
+    const typeGeometry: string = `${obj.dataset}-geom`;
 
     //delete method for dev and tests
     //redisCache.delete(fieldDate);
     //redisCache.delete(typeGeometry);
+
     const dateExists = await redisCache.existsAsync(fieldDate);
     const typeGoemExists = await redisCache.existsAsync(typeGeometry);
 
@@ -18,13 +20,13 @@ const getCacheData = async (params, client) => {
     if (dateExists === 0 && typeGoemExists === 0) {
         try {
             //get mapping information
-            const { body } = await client.indices.getMapping({ index: params.dataset });
+            const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
 
             //format list fields objects
-            const fieldsObjects = body[params.dataset].mappings.properties;
+            const fieldsObjects = body[obj.dataset].mappings.properties;
 
             //get all date fields and push an array to redis db
-            const dateListFields = await getFirstDate(fieldsObjects, "date");
+            const dateListFields = await getFirstField(fieldsObjects, "date");
             await redisCache.pushAsync(fieldDate, dateListFields);
 
             //get first type of geometry and push it to redis db
@@ -35,7 +37,7 @@ const getCacheData = async (params, client) => {
             redisCache.end();
             return { dates: dateListFields, geom: geometry };
         } catch (e) {
-            return { state: false, data: e };
+            return {}
         }
     } else {
         //stop connection
@@ -47,7 +49,7 @@ const getCacheData = async (params, client) => {
 
 };
 
-const getFirstDate = async (object, search) => {
+const getFirstField = async (object: object, search: string) => {
     const dateFields = [];
     const data = Object.entries(object);
     for (let i = 0; i < data.length; i++) {
@@ -58,7 +60,7 @@ const getFirstDate = async (object, search) => {
     return dateFields;
 };
 
-const getGeometry = async (object) => {
+const getGeometry = async (object: object) => {
     const geometries = ["geo_point", "point", "polygon", "polyline"];
     const typeGeometry = [];
     const data = Object.entries(object);
@@ -71,5 +73,3 @@ const getGeometry = async (object) => {
     }
     return typeGeometry;
 };
-
-module.exports = getCacheData;

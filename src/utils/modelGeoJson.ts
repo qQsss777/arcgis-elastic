@@ -1,14 +1,15 @@
-const moment = require("moment");
+import * as moment from 'moment';
+import { IFeature } from '../interfaces';
 
-const modelPoint = async (feature, typeGeom, geomField, datelist) => {
+export const modelGeoJson = async (feature: any, typeGeom: string, geomField: string, datelist: Array<string>): Promise<IFeature> => {
     //get format for geo_point coordinates
     const coordinates = typeGeom === "geo_point" ? [feature[geomField].lon, feature[geomField].lat] : feature[geomField];
 
     //get geometry type for geo_point
-    const type = typeGeom === "geo_point" ? "Point" : typeGeom.charAt(0).toUpperCase();
-
+    const type = typeGeom === "geo_point" ? "Point" : typeGeom;
+    console.log(type);
     //init an Esri feature json
-    const esriFeature = {
+    const esriFeature: IFeature = {
         type: "Feature",
         geometry: {
             type,
@@ -16,7 +17,6 @@ const modelPoint = async (feature, typeGeom, geomField, datelist) => {
         },
         properties: feature
     };
-
     //for each field date, get timestamp value
     for (let i = 0; i < datelist.length; i++) {
         const dateFormat = moment(esriFeature.properties[datelist[i]]).valueOf();
@@ -24,5 +24,3 @@ const modelPoint = async (feature, typeGeom, geomField, datelist) => {
     }
     return esriFeature;
 };
-
-module.exports = modelPoint;
