@@ -27,13 +27,13 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
             //format list fields objects
             const fieldsObjects = body[obj.dataset].mappings.properties;
 
-            //get all date fields and push an array to redis db
+            //get all date fields and push an array to redis db, polyline and polygon not concerned
             const dateListFields = await getFirstField(fieldsObjects, "date");
-            await redisCache.pushAsync(fieldDate, dateListFields);
+            dateListFields.length !== 0 ? await redisCache.pushAsync(fieldDate, dateListFields) : null;
 
-            //get first type of geometry and push it to redis db
+            //get first type of geometry and push it to redis db, polyline and polygon not concerned
             const geometry = await getGeometry(fieldsObjects);
-            await redisCache.pushAsync(typeGeometry, geometry);
+            dateListFields.length !== 0 ? await redisCache.pushAsync(typeGeometry, geometry) : null;
 
             //stop connection
             redisCache.end();
@@ -63,7 +63,7 @@ const getFirstField = async (object: object, search: string): Promise<Array<stri
 };
 
 const getGeometry = async (object: object): Promise<Array<string>> => {
-    const geometries = ["geo_point", "point", "polygon", "polyline"];
+    const geometries = ["geo_point", "geo_shape"];
     const typeGeometry = [];
     const data = Object.entries(object);
     for (let i = 0; i < data.length; i++) {
