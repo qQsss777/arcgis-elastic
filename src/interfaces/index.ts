@@ -10,6 +10,11 @@ export interface IResults {
     data?: IResultsData;
 }
 
+export interface IResultsTemp {
+    state: boolean;
+    data?: any;
+}
+
 export interface IQuery {
     query?: {
         multi_match: IMultimatch;

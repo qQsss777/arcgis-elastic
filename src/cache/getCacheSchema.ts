@@ -1,19 +1,24 @@
 import { RedisCache } from './Cache';
 import { ICacheData } from '../interfaces';
+import { logger } from '../logger';
 
-export const getCacheSchema = async (obj: ICacheData) => {
+export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
 
     //connect to redis db
     const redisCache = new RedisCache();
     const schemaCache = `${obj.dataset}-schema`;
-    redisCache.delete(schemaCache);
+
+    //for dev and test only
+    //redisCache.delete(schemaCache);
+
     //check if keys and values exist
     const schemaCached = await redisCache.getAsync(schemaCache);
     //if not, get field mapping, set value to redis db and return object with value
     if (!schemaCached) {
+        logger.info("cache schema created")
         try {
             //get mapping information
-            const { body } = await obj.connection.indices.getMapping({ index: "deplacements" });
+            const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
             const data = body[obj.dataset].mappings.properties;
             const schema = await convertGeoType(data);
             await redisCache.setAsync(schemaCache, JSON.stringify(schema));
@@ -30,7 +35,7 @@ export const getCacheSchema = async (obj: ICacheData) => {
     }
 };
 
-const convertGeoType = async (obj: any) => {
+const convertGeoType = async (obj: any): Promise<any> => {
     const typeGeom = ["geo_point", "point", "polyline", "polygon"];
     const typeKeyword = ["keyword", "text", "date"];
     const allowedTypes = "any";

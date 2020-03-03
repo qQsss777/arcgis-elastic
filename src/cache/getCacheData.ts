@@ -1,5 +1,6 @@
 import { RedisCache } from './Cache';
 import { ICacheData, ICacheDataResult } from '../interfaces';
+import { logger } from '../logger';
 
 export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> => {
     //connect to redis db
@@ -18,6 +19,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
     //if not, get field mapping, set value to redis db and return object with value
     if (dateExists === 0 && typeGoemExists === 0) {
+        logger.info("cache data created")
         try {
             //get mapping information
             const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
@@ -49,7 +51,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
 };
 
-const getFirstField = async (object: object, search: string) => {
+const getFirstField = async (object: object, search: string): Promise<Array<string>> => {
     const dateFields = [];
     const data = Object.entries(object);
     for (let i = 0; i < data.length; i++) {
@@ -60,7 +62,7 @@ const getFirstField = async (object: object, search: string) => {
     return dateFields;
 };
 
-const getGeometry = async (object: object) => {
+const getGeometry = async (object: object): Promise<Array<string>> => {
     const geometries = ["geo_point", "point", "polygon", "polyline"];
     const typeGeometry = [];
     const data = Object.entries(object);

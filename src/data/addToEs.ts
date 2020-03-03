@@ -1,8 +1,8 @@
 import { client } from '../data';
 import { formatBulk } from '../utils';
-import { IPostData } from '../interfaces';
+import { IPostData, IResultsTemp } from '../interfaces';
 
-export const addToEs = async (obj: IPostData) => {
+export const addToEs = async (obj: IPostData): Promise<IResultsTemp> => {
     try {
         const dataToBulk = await formatBulk({ dataset: obj.dataset, data: obj.data });
         const { body } = await client.bulk({
@@ -31,6 +31,7 @@ export const addToEs = async (obj: IPostData) => {
         return { state, data: results };
     }
     catch (e) {
+        console.log(e)
         return e.meta ? { state: false, data: e.meta.body.error.type } : { state: false, data: {} };
     }
 };

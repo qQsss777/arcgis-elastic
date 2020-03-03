@@ -60,3 +60,4 @@ const geojson = new GeoJSONLayer({
 - metadata
 - https
 - Dockerfile
+- Logger

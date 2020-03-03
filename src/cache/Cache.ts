@@ -25,7 +25,7 @@ export class RedisCache {
         }
     }
 
-    async setAsync(key: string, data: string) {
+    async setAsync(key: string, data: string): Promise<any> {
         const setAsync = promisify(this._client.set).bind(this._client);
         try {
             const value = await setAsync(key, data);
@@ -36,7 +36,7 @@ export class RedisCache {
         }
     }
 
-    async pushAsync(key: string, data: Array<any>) {
+    async pushAsync(key: string, data: Array<any>): Promise<any> {
         const pushAsync = promisify(this._client.lpush).bind(this._client);
         try {
             const value = await pushAsync(key, data);
@@ -47,18 +47,18 @@ export class RedisCache {
         }
     }
 
-    async rangeAsync(key: string, start: number, end: number) {
+    async rangeAsync(key: string, start: number, end: number): Promise<any> {
         const rangeAsync = promisify(this._client.lrange).bind(this._client);
         try {
             const value = await rangeAsync(key, start, end);
             return value;
         }
         catch (e) {
-            return []
+            console.log(e)
         }
     }
 
-    async existsAsync(key: string) {
+    async existsAsync(key: string): Promise<any> {
         const existsAsync = promisify(this._client.exists.bind(this._client));
         try {
             const value = await existsAsync(key);
