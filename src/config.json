@@ -7,9 +7,9 @@
     "elastic": {
         "protocol": "http",
         "host": "",
-        "port": ,
+        "port": 9200,
         "username": "",
-        "password": "!"
+        "password": ""
     },
     "redis": {
         "support": false,
