@@ -12,6 +12,7 @@
         "password": "!"
     },
     "redis": {
+        "support": false,
         "port": 6379
     }
 }
