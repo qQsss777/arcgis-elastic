@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - 11
+
+service:
+  - redis-server
+  - elasticsearch
+
+before_script:
+  - sleep 10
+  - npm install
+  - curl -X PUT "localhost:9200/deplacements?pretty"
+  - curl -X PUT "localhost:9200/polygon?pretty"
+  - curl -X PUT "localhost:9200/polyline?pretty"
+
+script:
+  - npm run test
+  - npm run build
