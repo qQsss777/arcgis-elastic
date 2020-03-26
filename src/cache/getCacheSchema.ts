@@ -21,6 +21,7 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
                 //get mapping information
                 const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
                 const data = body[obj.dataset].mappings.properties;
+                console.log(data)
                 const schema = await convertGeoType(data);
                 await redisCache.setAsync(schemaCache, JSON.stringify(schema));
                 redisCache.end();

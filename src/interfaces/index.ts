@@ -41,6 +41,8 @@ export interface IResultsData {
 export interface ICacheDataResult {
     dates?: Array<string>;
     geom?: Array<string>;
+    integer?: Array<string>;
+    double?: Array<string>;
 }
 
 // Complete definition of the Search response

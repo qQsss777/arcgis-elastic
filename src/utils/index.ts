@@ -1,4 +1,4 @@
-import { formatEsriGeoJSON } from './formatGeoJSON';
+import { formatEsriGeoJSON } from './formatEsriGeoJSON';
 import { formatBulk } from './formatBulk';
 import { formatData } from './formatData';
 import { validateSchema } from './validateSchema';

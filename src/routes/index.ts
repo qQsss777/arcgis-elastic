@@ -1,8 +1,8 @@
-import { searchRouter } from './search';
+import { geojsonRouter } from './geojson';
 import { addRouter } from './add';
 import * as combineRouters from 'koa-combine-routers';
 
 export const routersCombined = combineRouters(
-    searchRouter,
+    geojsonRouter,
     addRouter
 );

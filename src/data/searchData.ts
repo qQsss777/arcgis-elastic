@@ -10,7 +10,7 @@ export const searchData = async (obj: ISearch): Promise<IResults> => {
         const response: ApiResponse<ISearchResponse<any>> = await client.search({
             index: obj.dataset,
             body: queryEs,
-            size: 10000
+            size: 10
         });
         return { state: true, data: { fields: fields, source: response.body.hits.hits } };
     }

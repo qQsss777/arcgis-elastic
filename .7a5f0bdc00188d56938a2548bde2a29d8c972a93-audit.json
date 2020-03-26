@@ -1,0 +1,39 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": ".7a5f0bdc00188d56938a2548bde2a29d8c972a93-audit.json",
+    "files": [
+        {
+            "date": 1585153891655,
+            "name": "ESConnector-2020-03-25-17.log",
+            "hash": "87a0bf0971eac4da5045a083cd5b54be"
+        },
+        {
+            "date": 1585203546888,
+            "name": "ESConnector-2020-03-26-07.log",
+            "hash": "516ffd3936756a35720318708d48715a"
+        },
+        {
+            "date": 1585206010296,
+            "name": "ESConnector-2020-03-26-08.log",
+            "hash": "075d72c0e375ed7029666a4f2ca6e580"
+        },
+        {
+            "date": 1585209645412,
+            "name": "ESConnector-2020-03-26-09.log",
+            "hash": "e702ddf4eb1023717a2f0417ce4ba4d9"
+        },
+        {
+            "date": 1585214032524,
+            "name": "ESConnector-2020-03-26-10.log",
+            "hash": "0cb1de07e34b06868d571747ad1b4f38"
+        },
+        {
+            "date": 1585216835817,
+            "name": "ESConnector-2020-03-26-11.log",
+            "hash": "d199e32058f8f49751f993c0c87065e1"
+        }
+    ]
+}
