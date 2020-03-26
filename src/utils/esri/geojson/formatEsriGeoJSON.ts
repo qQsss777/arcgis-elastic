@@ -1,5 +1,5 @@
-import { modelGeoJson } from './modelGeoJson';
-import { IResultsData, IFeaturesCollection, IFeature } from '../interfaces';
+import { formatFeature } from './formatFeature';
+import { IResultsData, IFeaturesCollection, IFeature } from '../../../interfaces';
 
 //support only the current position given by a smartphone’s Geolocation API => GeoJSON.
 export const formatEsriGeoJSON = async (obj: IResultsData) => {
@@ -8,20 +8,16 @@ export const formatEsriGeoJSON = async (obj: IResultsData) => {
     //get data
     const jsonSource = obj.source.map(hit => hit["_source"]);
     const objectIds = obj.source.map(hit => hit["_id"])
+
     //init an Esri GeoJSON
-    const esriGeoJSON: IFeaturesCollection = {
-        type: "FeatureCollection",
-        features: [],
-        metadata: {
-            time: dates[0],
-            objectID: "objectID"
-        }
-    };
+    const geoJSON: IFeaturesCollection = Object.assign(require('../templates/geojson.json'))
+    const esriGeoJSON: IFeaturesCollection = JSON.parse(JSON.stringify(geoJSON));
+
     //push features to the Esri GeoJSON
     for (let i = 0; i < jsonSource.length; i++) {
         const ft = jsonSource[i];
         const objectId = objectIds[i]
-        const features: IFeature = await modelGeoJson(ft, objectId, geom[1], geom[0], dates, integer, double);
+        const features: IFeature = await formatFeature(ft, objectId, geom[1], geom[0], dates, integer, double);
         esriGeoJSON.features.push(features);
     }
     return esriGeoJSON;

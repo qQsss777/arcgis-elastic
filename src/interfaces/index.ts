@@ -1,9 +1,13 @@
 import { Client } from '@elastic/elasticsearch';
 
 //all interfaces used in this app
-export interface ISearch {
+export interface IGeoJSONSearch {
     dataset: string;
     query: object;
+}
+
+export interface IFeatureServerSearch {
+    dataset: string;
 }
 
 export interface IResults {
@@ -37,6 +41,11 @@ export interface IResultsData {
     source: Array<any>
 };
 
+export interface IResultsFeaturesData {
+    name: string;
+    fields: ICacheDataResult;
+    source: Array<any>
+};
 
 export interface ICacheDataResult {
     dates?: Array<string>;
@@ -103,4 +112,93 @@ export interface IFeature {
 export interface IPostData {
     dataset: string;
     data: any
+}
+
+export interface IFeatureServer {
+    id: number,
+    name: string,
+    type: string,
+    description: string,
+    copyrightText: string,
+    parentLayer: string,
+    subLayers: string,
+    minScale: number,
+    maxScale: number,
+    drawingInfo: {
+        renderer: any,
+        labelingInfo: any
+    },
+    defaultVisibility: boolean,
+    extent: {
+        xmin: number,
+        ymin: number,
+        xmax: number,
+        ymax: number,
+        spatialReference: {
+            wkid: number,
+            latestWkid: number
+        }
+    },
+    hasAttachments: boolean,
+    htmlPopupType: string,
+    displayField: string,
+    typeIdField: string,
+    fields: any[],
+    relationships: any[],
+    canModifyLayer: boolean,
+    canScaleSymbols: boolean,
+    hasLabels: boolean,
+    capabilities: string,
+    maxRecordCount: number,
+    supportsStatistics: boolean,
+    supportsAdvancedQueries: boolean,
+    supportedQueryFormats: string,
+    ownershipBasedAccessControlForFeatures: {
+        allowOthersToQuery: boolean
+    },
+    supportsCoordinatesQuantization: boolean,
+    useStandardizedQueries: boolean,
+    advancedQueryCapabilities: {
+        useStandardizedQueries: boolean,
+        supportsStatistics: boolean,
+        supportsOrderBy: boolean,
+        supportsDistinct: boolean,
+        supportsPagination: boolean,
+        supportsTrueCurve: boolean,
+        supportsReturningQueryExtent: boolean,
+        supportsQueryWithDistance: boolean
+    },
+    dateFieldsTimeReference: string,
+    isDataVersioned: boolean,
+    supportsRollbackOnFailureParameter: boolean,
+    hasM: boolean,
+    hasZ: boolean,
+    allowGeometryUpdates: boolean,
+    objectIdField: string,
+    globalIdField: string,
+    types: any[],
+    templates: any[],
+    hasStaticData: boolean,
+    timeInfo: any,
+    uniqueIdField: {
+        name: string,
+        isSystemMaintained: boolean
+    }
+}
+
+export interface IFeatures {
+    objectIdFieldName: string,
+    uniqueIdField: {
+        name: string,
+        isSystemMaintained: boolean
+    },
+    globalIdFieldName: string,
+    hasZ: boolean,
+    hasM: boolean,
+    spatialReference: {
+        wkid: number
+    },
+    fields: any[],
+    features: any[],
+    exceededTransferLimit: boolean
 }

@@ -34,6 +34,31 @@
             "date": 1585216835817,
             "name": "ESConnector-2020-03-26-11.log",
             "hash": "d199e32058f8f49751f993c0c87065e1"
+        },
+        {
+            "date": 1585220401438,
+            "name": "ESConnector-2020-03-26-12.log",
+            "hash": "7cf41ffb8594746089c8b96ccbbf730a"
+        },
+        {
+            "date": 1585224324015,
+            "name": "ESConnector-2020-03-26-13.log",
+            "hash": "e10f9deb3193cb8815f64f9f8c612e0b"
+        },
+        {
+            "date": 1585227793116,
+            "name": "ESConnector-2020-03-26-14.log",
+            "hash": "e517949afa7f10a968adcc1db982435d"
+        },
+        {
+            "date": 1585231279314,
+            "name": "ESConnector-2020-03-26-15.log",
+            "hash": "c0f533679372ac694ca5af1ad9b3d25a"
+        },
+        {
+            "date": 1585234824568,
+            "name": "ESConnector-2020-03-26-16.log",
+            "hash": "206048b8270a58984744a9bb99b51439"
         }
     ]
 }

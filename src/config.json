@@ -10,7 +10,7 @@
         "port": ,
         "secure": true,
         "username": "",
-        "password": ""
+        "password": "!"
     },
     "redis": {
         "support": false,

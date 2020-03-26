@@ -1,6 +1,6 @@
-import { client } from '../data';
-import { getCacheData } from '../cache';
-import { IPostData } from '../interfaces';
+import { client } from '../../data';
+import { getCacheData } from '../../cache';
+import { IPostData } from '../../interfaces';
 
 export const formatInput = async (obj: IPostData) => {
     const { geom } = await getCacheData({ dataset: obj.dataset, connection: client });

@@ -1,7 +1,7 @@
 import * as jsonschema from 'jsonschema';
-import { client } from '../data';
-import { getCacheSchema } from '../cache';
-import { IPostData } from '../interfaces';
+import { client } from '../../data';
+import { getCacheSchema } from '../../cache';
+import { IPostData } from '../../interfaces';
 
 export const validateSchema = async (obj: IPostData) => {
     const Validator = jsonschema.Validator;

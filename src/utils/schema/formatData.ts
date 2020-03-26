@@ -1,6 +1,6 @@
 import * as jsonschema from 'jsonschema';
-import { IPostData } from '../interfaces';
-import { formatInput } from '../utils';
+import { IPostData } from '../../interfaces';
+import { formatInput } from '..';
 
 export const formatData = async (obj: IPostData): Promise<object> => {
     const Validator = jsonschema.Validator;

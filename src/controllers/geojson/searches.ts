@@ -1,8 +1,8 @@
-import { ISearch } from '../interfaces';
-import { searchData } from '../data';
-import { formatEsriGeoJSON } from '../utils';
+import { IGeoJSONSearch } from '../../interfaces';
+import { searchData } from '../../data';
+import { formatEsriGeoJSON } from '../../utils';
 
-export const searches = async (obj: ISearch): Promise<object> => {
+export const searches = async (obj: IGeoJSONSearch): Promise<any> => {
     //get data from Elasticsearch
     const { state, data } = await searchData({ dataset: obj.dataset, query: obj.query });
     //if success, format data to esri geojson
