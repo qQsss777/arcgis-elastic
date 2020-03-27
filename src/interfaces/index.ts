@@ -3,7 +3,7 @@ import { Client } from '@elastic/elasticsearch';
 //all interfaces used in this app
 export interface IGeoJSONSearch {
     dataset: string;
-    query: object;
+    query: any;
 }
 
 export interface IFeatureServerSearch {
@@ -41,10 +41,16 @@ export interface IResultsData {
     source: Array<any>
 };
 
+export interface IResultsFeatureServiceData {
+    fields: IResultsFeaturesData;
+    source: Array<any>
+};
+
 export interface IResultsFeaturesData {
     name: string;
     fields: ICacheDataResult;
-    source: Array<any>
+    source: Array<any>;
+    typeOfGeom?: string
 };
 
 export interface ICacheDataResult {
@@ -107,6 +113,11 @@ export interface IFeature {
         coordinates: any;
     };
     properties: any;
+}
+
+export interface IFeatureEsri {
+    geometry: any;
+    attributes: any;
 }
 
 export interface IPostData {
@@ -183,7 +194,10 @@ export interface IFeatureServer {
     uniqueIdField: {
         name: string,
         isSystemMaintained: boolean
-    }
+    },
+    currentVersion: string,
+    fullVersion: string,
+    geometryType: string
 }
 
 export interface IFeatures {
@@ -200,5 +214,15 @@ export interface IFeatures {
     },
     fields: any[],
     features: any[],
-    exceededTransferLimit: boolean
+    exceededTransferLimit: boolean,
+    geometryType: string,
+}
+
+export interface IField {
+    name: string;
+    type: string;
+    alias: string;
+    sqlType: string,
+    domain: string;
+    defaultValue: any
 }

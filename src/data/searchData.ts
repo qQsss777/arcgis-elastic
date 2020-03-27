@@ -10,7 +10,7 @@ export const searchData = async (obj: IGeoJSONSearch): Promise<IResults> => {
         const response: ApiResponse<ISearchResponse<any>> = await client.search({
             index: obj.dataset,
             body: queryEs,
-            size: 5
+            size: 5000
         });
         return { state: true, data: { fields: fields, source: response.body.hits.hits } };
     }

@@ -1,19 +1,19 @@
 {
     "server": {
         "host": "",
-        "port": ,
+        "port": 0,
         "log": ""
     },
     "elastic": {
         "protocol": "http",
-        "host": "",
-        "port": ,
+        "host": "localhost",
+        "port": 9200,
         "secure": true,
         "username": "",
-        "password": "!"
+        "password": ""
     },
     "redis": {
         "support": false,
-        "port":
+        "port": 6379
     }
 }

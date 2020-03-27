@@ -5,6 +5,7 @@ const config = require('../config');
 
 export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> => {
     if (config.redis.support) {
+        logger.info(`init caching for ${obj.dataset}`)
         //connect to redis db
         const redisCache = new RedisCache();
 
@@ -24,7 +25,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
         //if not, get field mapping, set value to redis db and return object with value
         if (typeGoemExists === 0 && config.redis.support) {
-            logger.info("cache data created")
+            logger.info(`caching for ${obj.dataset}`)
             try {
                 //get mapping information
                 const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
@@ -49,8 +50,10 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
                 //stop connection
                 redisCache.end();
+                logger.info(`caching finished ${obj.dataset}`)
                 return { dates: dateListFields, geom: geometry, integer: integerListFields, double: doubleListFields };
             } catch (e) {
+                logger.error(`error caching for ${obj.dataset}`)
                 return {}
             }
         } else {
@@ -60,6 +63,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
             const doubleCache = await redisCache.rangeAsync(fieldDouble, 0, -1);
             const integerCache = await redisCache.rangeAsync(fieldInteger, 0, -1);
             redisCache.end();
+            logger.info(`values retrieved for ${obj.dataset} from caching`)
             return { dates: dateCache, geom: geomCache, integer: integerCache, double: doubleCache };
         }
     } else {
@@ -83,6 +87,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
             return { dates: dateListFields, geom: geometry, integer: integerListFields, double: doubleListFields };
         }
         catch (e) {
+            logger.error(`error getting structure data for ${obj.dataset}`)
             throw new Error('erreur dans la récupération des champs')
         }
     }

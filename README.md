@@ -54,8 +54,8 @@ const geojson = new GeoJSONLayer({
 
 
 ## TODO
-- WKT format
-- API feature service format
+- WKT format (point, multipolygon, multipolyline)
+- API feature service format (vizualize ok)
 - update data
 - delete data
 - authentification

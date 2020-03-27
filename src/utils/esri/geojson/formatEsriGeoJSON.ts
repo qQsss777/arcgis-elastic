@@ -10,7 +10,7 @@ export const formatEsriGeoJSON = async (obj: IResultsData) => {
     const objectIds = obj.source.map(hit => hit["_id"])
 
     //init an Esri GeoJSON
-    const geoJSON: IFeaturesCollection = Object.assign(require('../templates/geojson.json'))
+    const geoJSON: IFeaturesCollection = Object.assign(require('../../../../templates/geojson.json'))
     const esriGeoJSON: IFeaturesCollection = JSON.parse(JSON.stringify(geoJSON));
 
     //push features to the Esri GeoJSON

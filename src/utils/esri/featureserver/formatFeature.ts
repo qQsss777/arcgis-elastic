@@ -1,14 +1,15 @@
 import * as moment from 'moment';
-import { IFeature } from '../../../interfaces';
+import { IFeatureEsri } from '../../../interfaces';
+import proj4 = require('proj4');
 
 export const formatFeature = async (
     feature: any,
-    objectId: string,
+    objectId: number,
     typeGeom: string,
     geomField: string,
     datelist: Array<string>,
     integerList: Array<string>,
-    doubleList: Array<string>): Promise<any> => {
+    doubleList: Array<string>): Promise<IFeatureEsri> => {
     try {
         //get format for geo_point coordinates
         const coordinates = typeGeom === "geo_point" ? [feature[geomField].lon, feature[geomField].lat] : feature[geomField];
@@ -18,21 +19,22 @@ export const formatFeature = async (
 
         //for each field date, get timestamp value
         for (let i = 0; i < datelist.length; i++) {
-            const dateFormat = moment(ft.properties[datelist[i]]).valueOf();
-            ft.properties[datelist[i]] = dateFormat;
+            const dateFormat = moment(ft.attributes[datelist[i]]).valueOf();
+            ft.attributes[datelist[i]] = dateFormat;
         }
 
         //for each field integer, parse the value
         for (let i = 0; i < integerList.length; i++) {
-            ft.properties[integerList[i]] == null ? ft.properties[integerList[i]] = -1 : ft.properties[integerList[i]] = parseInt(ft.properties[integerList[i]])
+            ft.attributes[integerList[i]] == null ? ft.attributes[integerList[i]] = -1 : ft.attributes[integerList[i]] = parseInt(ft.attributes[integerList[i]])
         }
 
         //for each field double, parse the value
         for (let i = 0; i < doubleList.length; i++) {
-            ft.properties[doubleList[i]] == null ? ft.properties[doubleList[i]] = -1 : ft.properties[doubleList[i]] = parseFloat(ft.properties[doubleList[i]])
+            ft.attributes[doubleList[i]] == null ? ft.attributes[doubleList[i]] = -1 : ft.attributes[doubleList[i]] = parseFloat(ft.attributes[doubleList[i]])
 
         }
-        ft.properties.OBJECTID = objectId;
+        //ft.properties.GLOBALID = objectId;
+        ft.attributes.OBJECTID = objectId;
         return ft;
     } catch (e) {
         console.log(e)
@@ -40,17 +42,17 @@ export const formatFeature = async (
     }
 };
 
-const geoPoint = async (coordinates: Array<any>, feature: any): Promise<IFeature> => {
+const geoPoint = async (coordinates: Array<any>, feature: any): Promise<IFeatureEsri> => {
     //init an Esri feature json
-    const ft: IFeature = Object.assign(require('../../../templates/featureGeojson.json'))
-    const esriFeature: IFeature = JSON.parse(JSON.stringify(ft));
-    esriFeature.geometry.type = "Point";
-    esriFeature.geometry.coordinates = coordinates;
-    esriFeature.properties = feature;
+    const ft: IFeatureEsri = Object.assign(require('../../../../templates/featureEsri.json'))
+    const esriFeature: IFeatureEsri = JSON.parse(JSON.stringify(ft));
+    esriFeature.geometry.x = coordinates[0];
+    esriFeature.geometry.y = coordinates[1];
+    esriFeature.attributes = feature;
     return esriFeature;
 };
 
-const geoShape = async (feature: any, geomField: string): Promise<IFeature> => {
+const geoShape = async (feature: any, geomField: string): Promise<IFeatureEsri> => {
     //instance of array for coordinates and type of geometry
     let coordinates: any[] = [];
     let type: string;
@@ -61,27 +63,30 @@ const geoShape = async (feature: any, geomField: string): Promise<IFeature> => {
     if (geometry instanceof Object) {
         switch (geometry.type) {
             case "polygon":
-                type = "Polygon";
+                type = "rings";
                 break;
             case "linestring":
-                type = "LineString";
+                type = "paths";
                 break;
             case "multilinestring":
-                type = "LineString";
+                type = "paths";
                 break;
             default:
                 throw new Error('type non reconnu')
         }
-        coordinates = geometry.coordinates
+
+        const geometryMercator = geometry.coordinates.map((tab: any[]) => tab.map((coord: number[]) => proj4('EPSG:4326', 'EPSG:3857', coord)))
+        coordinates = geometryMercator;
+
     } else {
         //get wkt type
         const typeWKT = geometry.split(' (', 1)[0];
         switch (typeWKT) {
             case "MULTIPOLYGON":
-                type = "Polygon";
+                type = "rings";
                 break;
             case "MULTILINESTRING":
-                type = "MultiLineString";
+                type = "paths";
                 break;
             default:
                 throw new Error('type non reconnu')
@@ -101,17 +106,17 @@ const geoShape = async (feature: any, geomField: string): Promise<IFeature> => {
             //convert each string value to float
             const elstring = element.split(' ');
             const withoutSpace = elstring.filter((e: string) => e !== '');
-            arrayOfPoints.push(withoutSpace.map((e: string) => parseFloat(e)));
+            const pairsCoords = withoutSpace.map((e: string) => parseFloat(e))
+            arrayOfPoints.push(proj4('EPSG:4326', 'EPSG:3857', pairsCoords));
         });
         coordinates.push(arrayOfPoints);
     }
 
     //init an Esri feature json
-    const ft: IFeature = Object.assign(require('../../../../templates/featureGeojson.json'))
-    const esriFeature: IFeature = JSON.parse(JSON.stringify(ft));
-    esriFeature.geometry.type = type;
-    esriFeature.geometry.coordinates = coordinates;
-    esriFeature.properties = feature;
+    const ft: IFeatureEsri = Object.assign(require('../../../../templates/featureEsri.json'))
+    const esriFeature: IFeatureEsri = JSON.parse(JSON.stringify(ft));
+    esriFeature.geometry[type] = coordinates;
+    esriFeature.attributes = feature;
     return esriFeature;
 };
 

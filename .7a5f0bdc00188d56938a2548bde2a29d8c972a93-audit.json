@@ -6,59 +6,14 @@
     "auditLog": ".7a5f0bdc00188d56938a2548bde2a29d8c972a93-audit.json",
     "files": [
         {
-            "date": 1585153891655,
-            "name": "ESConnector-2020-03-25-17.log",
-            "hash": "87a0bf0971eac4da5045a083cd5b54be"
+            "date": 1585315388873,
+            "name": "ESConnector-2020-03-27-14.log",
+            "hash": "15473d6df6808410a9009a0f484c470d"
         },
         {
-            "date": 1585203546888,
-            "name": "ESConnector-2020-03-26-07.log",
-            "hash": "516ffd3936756a35720318708d48715a"
-        },
-        {
-            "date": 1585206010296,
-            "name": "ESConnector-2020-03-26-08.log",
-            "hash": "075d72c0e375ed7029666a4f2ca6e580"
-        },
-        {
-            "date": 1585209645412,
-            "name": "ESConnector-2020-03-26-09.log",
-            "hash": "e702ddf4eb1023717a2f0417ce4ba4d9"
-        },
-        {
-            "date": 1585214032524,
-            "name": "ESConnector-2020-03-26-10.log",
-            "hash": "0cb1de07e34b06868d571747ad1b4f38"
-        },
-        {
-            "date": 1585216835817,
-            "name": "ESConnector-2020-03-26-11.log",
-            "hash": "d199e32058f8f49751f993c0c87065e1"
-        },
-        {
-            "date": 1585220401438,
-            "name": "ESConnector-2020-03-26-12.log",
-            "hash": "7cf41ffb8594746089c8b96ccbbf730a"
-        },
-        {
-            "date": 1585224324015,
-            "name": "ESConnector-2020-03-26-13.log",
-            "hash": "e10f9deb3193cb8815f64f9f8c612e0b"
-        },
-        {
-            "date": 1585227793116,
-            "name": "ESConnector-2020-03-26-14.log",
-            "hash": "e517949afa7f10a968adcc1db982435d"
-        },
-        {
-            "date": 1585231279314,
-            "name": "ESConnector-2020-03-26-15.log",
-            "hash": "c0f533679372ac694ca5af1ad9b3d25a"
-        },
-        {
-            "date": 1585234824568,
-            "name": "ESConnector-2020-03-26-16.log",
-            "hash": "206048b8270a58984744a9bb99b51439"
+            "date": 1585317708878,
+            "name": "ESConnector-2020-03-27-15.log",
+            "hash": "30c1ec207c00d3cc36ea275f56ea9164"
         }
     ]
 }

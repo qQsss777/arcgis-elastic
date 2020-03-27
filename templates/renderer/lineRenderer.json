@@ -2,12 +2,12 @@
     "type": "simple",
     "symbol": {
         "color": [
-            247,
-            150,
-            70,
-            204
+            0,
+            197,
+            255,
+            255
         ],
-        "width": 6.999999999999999,
+        "width": 8,
         "type": "esriSLS",
         "style": "esriSLSSolid"
     }

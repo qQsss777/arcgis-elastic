@@ -10,7 +10,7 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
         const schemaCache = `${obj.dataset}-schema`;
 
         //for dev and test only
-        //redisCache.delete(schemaCache);
+        redisCache.delete(schemaCache);
 
         //check if keys and values exist
         const schemaCached = await redisCache.getAsync(schemaCache);
@@ -50,9 +50,6 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
 };
 
 const convertGeoType = async (obj: any): Promise<any> => {
-    const typeGeom = ["geo_point", "point", "polyline", "polygon"];
-    const typeKeyword = ["keyword", "text", "date"];
-    const allowedTypes = "any";
     const schemaValues = Object.values(obj);
     const schemaKeys = Object.keys(obj);
     const schemaUpdated: any = {};
@@ -60,9 +57,28 @@ const convertGeoType = async (obj: any): Promise<any> => {
     for (let i = 0; i < schemaValues.length; i++) {
         const key: string = schemaKeys[i];
         const val: any = schemaValues[i];
-        const typeOfGoem = typeGeom.includes(val.type) ? val.type : allowedTypes;
-        const typeUpdated = typeKeyword.includes(val.type) ? "string" : typeOfGoem;
-        schemaUpdated[key] = { type: typeUpdated };
+        switch (val.type) {
+            case ('integer'):
+                schemaUpdated[key] = { type: 'integer' };
+                break;
+            case ('double'):
+                schemaUpdated[key] = { type: 'double' };
+                break;
+            case ('keyword'):
+                schemaUpdated[key] = { type: 'string' };
+                break;
+            case ('text'):
+                schemaUpdated[key] = { type: 'string' };
+                break;
+            case ('date'):
+                schemaUpdated[key] = { type: 'string' };
+                break;
+            case ('point'):
+                schemaUpdated[key] = { type: 'point' };
+                break;
+            default:
+                schemaUpdated[key] = { type: 'any' };
+        }
     };
     return schemaUpdated;
 };

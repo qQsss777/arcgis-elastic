@@ -10,6 +10,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.0",
     "@koa/cors": "^2.2.3",
+    "@types/proj4": "^2.5.0",
     "jsonschema": "^1.2.5",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
@@ -17,6 +18,7 @@
     "koa-cors": "0.0.16",
     "koa-router": "^8.0.8",
     "moment": "^2.24.0",
+    "proj4": "^2.6.0",
     "redis": "^3.0.2",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"

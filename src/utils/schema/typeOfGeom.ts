@@ -6,16 +6,16 @@ export const typeOfGeom = async (feature: any, geomfield: string) => {
     if (geometry instanceof Object) {
         switch (geometry.type) {
             case "polygon":
-                type = "Polygon";
+                type = "esriGeometryPolygon";
                 break;
             case "linestring":
-                type = "Polyline";
+                type = "esriGeometryPolyline";
                 break;
             case "multilinestring":
-                type = "Polyline";
+                type = "esriGeometryPolyline";
                 break;
             case "point":
-                type = "Point";
+                type = "esriGeometryPoint";
                 break;
             default:
                 throw new Error('type non reconnu')
@@ -25,13 +25,13 @@ export const typeOfGeom = async (feature: any, geomfield: string) => {
         const typeWKT = geometry.split(' (', 1)[0];
         switch (typeWKT) {
             case "POINT":
-                type = "Point";
+                type = "esriGeometryPoint";
                 break;
             case "MULTIPOLYGON":
-                type = "Polygon";
+                type = "esriGeometryPolygon";
                 break;
             case "MULTILINESTRING":
-                type = "Polyline";
+                type = "esriGeometryPolyline";
                 break;
             default:
                 throw new Error('type non reconnu')
