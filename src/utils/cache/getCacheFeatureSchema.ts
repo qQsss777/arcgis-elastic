@@ -1,5 +1,6 @@
-import { ICacheData, IField } from '../interfaces';
-import { logger } from '../logger';
+import { logger } from '../../logger';
+import { ICacheData } from '../../interfaces/requests';
+import { IField } from '../../interfaces/esri';
 
 export const getCacheFeatureSchema = async (obj: ICacheData): Promise<any> => {
     try {
@@ -51,7 +52,7 @@ const convertFieldType = async (obj: any): Promise<any> => {
 
 const createListFields = async (schema: any): Promise<any> => {
     const listFields: IField[] = []
-    const fieldsEsri: IField = Object.assign(require('../../templates/fields.json'));
+    const fieldsEsri: IField = Object.assign(require('../../../templates/fields.json'));
     const objectid: IField = JSON.parse(JSON.stringify(fieldsEsri));
     objectid.name = "OBJECTID";
     objectid.alias = "OBJECTID";

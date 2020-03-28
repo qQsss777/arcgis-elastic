@@ -1,7 +1,10 @@
-import { IQuery } from '../interfaces';
+import { logger } from '../../logger';
+import { IQuery } from '../../interfaces/elastic';
 
 export const queryEsModel = async (query: object): Promise<IQuery> => {
+    logger.info(`init formatting query for ES.`);
     const body = Object.entries(query).length === 0 ? {} : await formatBody(query);
+    logger.info(`formatting query for ES finished.`);
     return body;
 };
 

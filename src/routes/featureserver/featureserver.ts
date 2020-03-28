@@ -1,14 +1,14 @@
 import * as Router from 'koa-router'
-import { searches } from '../../controllers/featureserver'
-import { query } from '../../controllers/featureserver';
+import { getLayer } from '../../controllers/featureserver'
+import { getLayerData } from '../../controllers/featureserver';
 
 export const featureserverRouter = new Router();
 featureserverRouter
     .get("/:dataset/FeatureServer/0", async (ctx, next) => {
-        const results = await searches({ dataset: ctx.params.dataset });
-        ctx.body = results;
+        const results = await getLayer({ dataset: ctx.params.dataset, url: ctx.url });
+        results !== 404 ? ctx.body = results : ctx.response.status = results;
     })
     .get("/:dataset/FeatureServer/0/query", async (ctx, next) => {
-        const results = await query({ dataset: ctx.params.dataset, query: ctx.query });
-        ctx.body = results;
+        const results = await getLayerData({ dataset: ctx.params.dataset, url: ctx.url, query: ctx.query });
+        results !== 404 ? ctx.body = results : ctx.response.status = results;
     });

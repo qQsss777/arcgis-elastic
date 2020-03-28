@@ -1,42 +1,38 @@
 import * as moment from 'moment';
-import { IFeature } from '../../../interfaces';
+import { logger } from '../../../logger';
+import { IInformationsSchema, IFeature } from '../../../interfaces/geojson';
 
-export const formatFeature = async (
-    feature: any,
-    objectId: string,
-    typeGeom: string,
-    geomField: string,
-    datelist: Array<string>,
-    integerList: Array<string>,
-    doubleList: Array<string>): Promise<any> => {
+export const formatFeature = async (infos: IInformationsSchema): Promise<IFeature> => {
+    logger.info(`Init formatting data for GeoJSON feature.`);
     try {
         //get format for geo_point coordinates
-        const coordinates = typeGeom === "geo_point" ? [feature[geomField].lon, feature[geomField].lat] : feature[geomField];
+        const coordinates = infos.geometry === "geo_point" ? [infos.feature[infos.fieldGeometry].lon, infos.feature[infos.fieldGeometry].lat] : infos.feature[infos.fieldGeometry];
 
         //get geometry type for geo_point
-        const ft = typeGeom === "geo_point" ? await geoPoint(coordinates, feature) : await geoShape(feature, geomField);
+        const ft = infos.geometry === "geo_point" ? await geoPoint(coordinates, infos.feature) : await geoShape(infos.feature, infos.fieldGeometry);
 
         //for each field date, get timestamp value
-        for (let i = 0; i < datelist.length; i++) {
-            const dateFormat = moment(ft.properties[datelist[i]]).valueOf();
-            ft.properties[datelist[i]] = dateFormat;
+        for (let i = 0; i < infos.dates.length; i++) {
+            const dateFormat = moment(ft.properties[infos.dates[i]]).valueOf();
+            ft.properties[infos.dates[i]] = dateFormat;
         }
 
         //for each field integer, parse the value
-        for (let i = 0; i < integerList.length; i++) {
-            ft.properties[integerList[i]] == null ? ft.properties[integerList[i]] = -1 : ft.properties[integerList[i]] = parseInt(ft.properties[integerList[i]])
+        for (let i = 0; i < infos.integers.length; i++) {
+            ft.properties[infos.integers[i]] == null ? ft.properties[infos.integers[i]] = -1 : ft.properties[infos.integers[i]] = parseInt(ft.properties[infos.integers[i]])
         }
 
         //for each field double, parse the value
-        for (let i = 0; i < doubleList.length; i++) {
-            ft.properties[doubleList[i]] == null ? ft.properties[doubleList[i]] = -1 : ft.properties[doubleList[i]] = parseFloat(ft.properties[doubleList[i]])
-
+        for (let i = 0; i < infos.doubles.length; i++) {
+            ft.properties[infos.doubles[i]] == null ? ft.properties[infos.doubles[i]] = -1 : ft.properties[infos.doubles[i]] = parseFloat(ft.properties[infos.doubles[i]])
         }
-        ft.properties.OBJECTID = objectId;
+
+        ft.properties.OBJECTID = infos.objectId;
+        logger.error(`Format data for GeoJSON feature finished.`);
         return ft;
     } catch (e) {
-        console.log(e)
-        return e
+        logger.error(`Format data for GeoJSON feature failed : ${e}.`);
+        throw new Error(e)
     }
 };
 

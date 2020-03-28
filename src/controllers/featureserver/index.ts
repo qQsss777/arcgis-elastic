@@ -1,4 +1,3 @@
-import { searches } from './searches';
-import { postData } from './add';
-import { query } from './query'
-export { searches, postData, query };
+import { getLayer } from './getLayer';
+import { getLayerData } from './getLayerData'
+export { getLayer, getLayerData };

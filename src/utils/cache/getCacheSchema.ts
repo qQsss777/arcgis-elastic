@@ -1,7 +1,7 @@
-import { RedisCache } from './Cache';
-import { ICacheData } from '../interfaces';
-import { logger } from '../logger';
-const config = require('../config');
+import { RedisCache } from '../../cache/Cache';
+import { logger } from '../../logger';
+import { ICacheData } from '../../interfaces/requests';
+const config = require('../../config');
 
 export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
     if (config.redis.support) {

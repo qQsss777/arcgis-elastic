@@ -1,12 +1,12 @@
 {
     "server": {
         "host": "",
-        "port": 0,
+        "port": ,
         "log": ""
     },
     "elastic": {
         "protocol": "http",
-        "host": "localhost",
+        "host": "",
         "port": 9200,
         "secure": true,
         "username": "",

@@ -1,7 +1,8 @@
-import { searchData } from './searchData';
-import { addToEs } from './addToEs';
+import { getData } from './fromES/getData';
+import { addToEs } from './toES/addToEs';
 import { client } from './connection';
-import { queryEsModel } from './queryEsModel';
-import { addData } from './addData';
-import { queryFeatureData } from './queryFeatureData';
-export { searchData, addToEs, client, queryEsModel, addData, queryFeatureData }
+import { queryEsModel } from './fromES/queryEsModel';
+import { addData } from './toES/addData';
+import { queryFeatureData } from './fromES/queryFeatureData';
+
+export { getData, addToEs, client, queryEsModel, addData, queryFeatureData };

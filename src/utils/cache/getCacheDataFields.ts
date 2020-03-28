@@ -1,11 +1,12 @@
-import { RedisCache } from './Cache';
-import { ICacheData, ICacheDataResult } from '../interfaces';
-import { logger } from '../logger';
-const config = require('../config');
+import { RedisCache } from '../../cache/Cache';
+import { logger } from '../../logger';
+import { ICacheDataResult, ICacheData } from '../../interfaces/requests';
+const config = require('../../config');
 
-export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> => {
+export const getCacheDataFields = async (obj: ICacheData): Promise<ICacheDataResult> => {
+    //Check if caching capability is enabled.
     if (config.redis.support) {
-        logger.info(`init caching for ${obj.dataset}`)
+        logger.info(`Cache enabled for ${obj.dataset}`)
         //connect to redis db
         const redisCache = new RedisCache();
 
@@ -25,9 +26,10 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
         //if not, get field mapping, set value to redis db and return object with value
         if (typeGoemExists === 0 && config.redis.support) {
-            logger.info(`caching for ${obj.dataset}`)
+            logger.info(`caching in progress for ${obj.dataset}`)
             try {
                 //get mapping information
+                logger.info(`get mapping informations for ${obj.dataset}`)
                 const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
 
                 //format list fields objects
@@ -35,15 +37,15 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
 
                 //get all date fields and push an array to redis db, polyline and polygon not concerned
                 const dateListFields = await getFields(fieldsObjects, "date");
-                dateListFields.length !== 0 ? await redisCache.pushAsync(fieldDate, dateListFields) : null;
+                dateListFields.length !== 0 ? await redisCache.pushAsync(fieldDate, dateListFields) : {};
 
                 //get all double fields and push an array to redis db, polyline and polygon not concerned
                 const doubleListFields = await getFields(fieldsObjects, "double");
-                doubleListFields.length !== 0 ? await redisCache.pushAsync(fieldDouble, doubleListFields) : null;
+                doubleListFields.length !== 0 ? await redisCache.pushAsync(fieldDouble, doubleListFields) : {};
 
                 //get all integer fields and push an array to redis db, polyline and polygon not concerned
                 const integerListFields = await getFields(fieldsObjects, "integer");
-                integerListFields.length !== 0 ? await redisCache.pushAsync(fieldInteger, integerListFields) : null;
+                integerListFields.length !== 0 ? await redisCache.pushAsync(fieldInteger, integerListFields) : {};
 
                 //get first type of geometry and push it to redis db, polyline and polygon not concerned
                 const geometry = await getGeometry(fieldsObjects);
@@ -51,7 +53,7 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
                 //stop connection
                 redisCache.end();
                 logger.info(`caching finished ${obj.dataset}`)
-                return { dates: dateListFields, geom: geometry, integer: integerListFields, double: doubleListFields };
+                return { dates: dateListFields, geom: geometry, integers: integerListFields, doubles: doubleListFields };
             } catch (e) {
                 logger.error(`error caching for ${obj.dataset}`)
                 return {}
@@ -63,12 +65,13 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
             const doubleCache = await redisCache.rangeAsync(fieldDouble, 0, -1);
             const integerCache = await redisCache.rangeAsync(fieldInteger, 0, -1);
             redisCache.end();
-            logger.info(`values retrieved for ${obj.dataset} from caching`)
-            return { dates: dateCache, geom: geomCache, integer: integerCache, double: doubleCache };
+            logger.info(`values retrieved for ${obj.dataset} from redis db`)
+            return { dates: dateCache, geom: geomCache, integers: integerCache, doubles: doubleCache };
         }
     } else {
         logger.info("cache data disabled")
         try {
+            logger.info(`get mapping informations for ${obj.dataset}`)
             //get mapping information
             const { body } = await obj.connection.indices.getMapping({ index: obj.dataset });
 
@@ -83,12 +86,11 @@ export const getCacheData = async (obj: ICacheData): Promise<ICacheDataResult> =
             const doubleListFields = await getFields(fieldsObjects, "double");
             //get all integer fields and push an array to redis db, polyline and polygon not concerned
             const integerListFields = await getFields(fieldsObjects, "integer");
-
-            return { dates: dateListFields, geom: geometry, integer: integerListFields, double: doubleListFields };
+            return { dates: dateListFields, geom: geometry, integers: integerListFields, doubles: doubleListFields };
         }
         catch (e) {
-            logger.error(`error getting structure data for ${obj.dataset}`)
-            throw new Error('erreur dans la récupération des champs')
+            logger.error(`error getting structure data for ${obj.dataset} : ${e.name}`)
+            throw new Error(`error getting structure data for ${obj.dataset}`)
         }
     }
 };

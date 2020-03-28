@@ -1,44 +1,40 @@
 import * as moment from 'moment';
-import { IFeatureEsri } from '../../../interfaces';
 import proj4 = require('proj4');
+import { IFeatureEsri } from '../../../interfaces/esri';
+import { IInformationsSchema } from '../../../interfaces/geojson';
+import { logger } from '../../../logger';
 
-export const formatFeature = async (
-    feature: any,
-    objectId: number,
-    typeGeom: string,
-    geomField: string,
-    datelist: Array<string>,
-    integerList: Array<string>,
-    doubleList: Array<string>): Promise<IFeatureEsri> => {
+export const formatFeature = async (obj: IInformationsSchema): Promise<IFeatureEsri> => {
+    logger.info(`Init formatting feature`)
     try {
         //get format for geo_point coordinates
-        const coordinates = typeGeom === "geo_point" ? [feature[geomField].lon, feature[geomField].lat] : feature[geomField];
-
+        const coordinates = obj.geometry === "geo_point" ? [obj.feature[obj.fieldGeometry].lon, obj.feature[obj.fieldGeometry].lat] : obj.feature[obj.fieldGeometry];
         //get geometry type for geo_point
-        const ft = typeGeom === "geo_point" ? await geoPoint(coordinates, feature) : await geoShape(feature, geomField);
+        const ft = obj.geometry === "geo_point" ? await geoPoint(coordinates, obj.feature) : await geoShape(obj.feature, obj.fieldGeometry);
 
         //for each field date, get timestamp value
-        for (let i = 0; i < datelist.length; i++) {
-            const dateFormat = moment(ft.attributes[datelist[i]]).valueOf();
-            ft.attributes[datelist[i]] = dateFormat;
+        for (let i = 0; i < obj.dates.length; i++) {
+            const dateFormat = moment(ft.attributes[obj.dates[i]]).valueOf();
+            ft.attributes[obj.dates[i]] = dateFormat;
         }
 
         //for each field integer, parse the value
-        for (let i = 0; i < integerList.length; i++) {
-            ft.attributes[integerList[i]] == null ? ft.attributes[integerList[i]] = -1 : ft.attributes[integerList[i]] = parseInt(ft.attributes[integerList[i]])
+        for (let i = 0; i < obj.integers.length; i++) {
+            ft.attributes[obj.integers[i]] == null ? ft.attributes[obj.integers[i]] = -1 : ft.attributes[obj.integers[i]] = parseInt(ft.attributes[obj.integers[i]])
         }
 
         //for each field double, parse the value
-        for (let i = 0; i < doubleList.length; i++) {
-            ft.attributes[doubleList[i]] == null ? ft.attributes[doubleList[i]] = -1 : ft.attributes[doubleList[i]] = parseFloat(ft.attributes[doubleList[i]])
+        for (let i = 0; i < obj.doubles.length; i++) {
+            ft.attributes[obj.doubles[i]] == null ? ft.attributes[obj.doubles[i]] = -1 : ft.attributes[obj.doubles[i]] = parseFloat(ft.attributes[obj.doubles[i]])
 
         }
         //ft.properties.GLOBALID = objectId;
-        ft.attributes.OBJECTID = objectId;
+        ft.attributes.OBJECTID = obj.objectId;
+        logger.info(`Formatting feature finished`)
         return ft;
     } catch (e) {
-        console.log(e)
-        return e
+        logger.error(`Formatting feature failed`)
+        throw new Error(e);
     }
 };
 
@@ -77,7 +73,6 @@ const geoShape = async (feature: any, geomField: string): Promise<IFeatureEsri> 
 
         const geometryMercator = geometry.coordinates.map((tab: any[]) => tab.map((coord: number[]) => proj4('EPSG:4326', 'EPSG:3857', coord)))
         coordinates = geometryMercator;
-
     } else {
         //get wkt type
         const typeWKT = geometry.split(' (', 1)[0];

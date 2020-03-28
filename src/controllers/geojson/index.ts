@@ -1,3 +1,3 @@
-import { searches } from './searches';
-import { postData } from './add';
-export { searches, postData };
+import { getGeoJSON } from './getGeoJSON';
+import { postGeoJSON } from './postGeoJSON';
+export { getGeoJSON, postGeoJSON };
