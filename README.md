@@ -44,20 +44,31 @@ $ npm run start
 ```
 
 ## How use it with ArcGIS API for JavaScript
-You can call REST endpoints with GeoJSON Class. You can apply renderer too.
+You can call REST endpoints with GeoJSON or FeatureLayer classes. You can apply renderer too.
 
 ```javascript
 const geojson = new GeoJSONLayer({
-    url: 'HOST:PORT/INDEXNAME/SEARCH'
+    url: 'HOST:PORT/INDEXNAME/geojson'
 })
+
+const featurelayer = new FeatureLayer({
+    url: 'HOST:PORT/INDEXNAME/featureserver/0'
+})
+
 ```
 
 
 ## TODO
-- WKT format (point, multipolygon, multipolyline)
-- API feature service format (vizualize ok)
-- update data
-- delete data
+- API GeoJSON
+    - WKT format (point, multipolygon, multipolyline)
+    - Query (all are not supported yet)
+    - add data implemented but not really tested
+
+- API feature service format
+    - ~~visualize~~
+    - query
+    - applyEdits
+    
 - authentification
 - metadata
 - https

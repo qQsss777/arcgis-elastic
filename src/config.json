@@ -1,7 +1,7 @@
 {
     "server": {
         "host": "",
-        "port": ,
+        "port": 3001,
         "log": ""
     },
     "elastic": {
