@@ -63,7 +63,18 @@
     "types": [],
     "templates": [],
     "hasStaticData": false,
-    "timeInfo": {},
+    "timeInfo": {
+        "startTimeField": "",
+        "endTimeField": "",
+        "trackIdField": "",
+        "timeExtent": [],
+        "timeReference": {
+            "timeZone": "",
+            "respectsDaylightSaving": true
+        },
+        "timeInterval": 1,
+        "timeIntervalUnits": "hours"
+    },
     "uniqueIdField": {
         "name": "OBJECTID",
         "isSystemMaintained": true

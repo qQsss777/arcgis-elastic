@@ -43,6 +43,12 @@ export interface IQuery {
     };
 }
 
+export interface IQueryString {
+    query?: {
+        query_string: IMultimatch;
+    };
+}
+
 export interface IMultimatch {
     query: string;
     fields: Array<string>;

@@ -10,7 +10,7 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
         const schemaCache = `${obj.dataset}-schema`;
 
         //for dev and test only
-        redisCache.delete(schemaCache);
+        //redisCache.delete(schemaCache);
 
         //check if keys and values exist
         const schemaCached = await redisCache.getAsync(schemaCache);

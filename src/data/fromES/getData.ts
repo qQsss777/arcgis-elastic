@@ -11,7 +11,7 @@ import { IFeatureService } from '../../interfaces/esri';
 export const getData = async (obj: IDataSearch): Promise<IFeaturesCollection | IFeatureService | number> => {
     try {
         //format query to retrieve information from ES (use for get data for geojson and FeatureServer )
-        const queryEs = await queryEsModel(obj.query);
+        const queryEs = await queryEsModel(obj, obj.query);
 
         //get data fields (geometry, date) from cache or get it from ES.
         const fields: ICacheDataResult = await getCacheDataFields({ connection: client, dataset: obj.dataset });
@@ -21,7 +21,7 @@ export const getData = async (obj: IDataSearch): Promise<IFeaturesCollection | I
         const response: ApiResponse<ISearchResponse<any>> = await client.search({
             index: obj.dataset,
             body: queryEs,
-            size: 5
+            size: 10000
         });
         logger.info(`Query for ES finished.`);
 

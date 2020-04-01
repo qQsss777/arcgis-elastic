@@ -21,7 +21,7 @@ export class RedisCache {
             return value;
         }
         catch (e) {
-            console.log(e);
+            throw new Error(e)
         }
     }
 
@@ -32,7 +32,7 @@ export class RedisCache {
             return value;
         }
         catch (e) {
-            console.log(e);
+            throw new Error(e)
         }
     }
 
@@ -43,7 +43,7 @@ export class RedisCache {
             return value;
         }
         catch (e) {
-            console.log(e);
+            throw new Error(e)
         }
     }
 
@@ -54,7 +54,7 @@ export class RedisCache {
             return value;
         }
         catch (e) {
-            console.log(e)
+            throw new Error(e)
         }
     }
 
@@ -65,7 +65,7 @@ export class RedisCache {
             return value;
         }
         catch (e) {
-            console.log(e);
+            throw new Error(e)
         }
     }
 

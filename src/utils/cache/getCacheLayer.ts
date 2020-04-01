@@ -4,6 +4,7 @@ import { client } from '../../data';
 import { getCacheFeatureSchema } from './getCacheFeatureSchema';
 import { IResultsFeaturesData } from '../../interfaces/requests';
 import { IFeatureService } from '../../interfaces/esri';
+import { setDefinitionLayer } from './setDefinitionLayer';
 const config = require('../../config');
 
 export const getCacheLayer = async (obj: IResultsFeaturesData): Promise<IFeatureService | any> => {
@@ -15,7 +16,7 @@ export const getCacheLayer = async (obj: IResultsFeaturesData): Promise<IFeature
         const schemaCache = `${obj.name}-layer`;
 
         //for dev and test only
-        redisCache.delete(schemaCache);
+        //redisCache.delete(schemaCache);
 
         //check if keys and values exist
         const schemaCached = await redisCache.getAsync(schemaCache);
@@ -25,12 +26,10 @@ export const getCacheLayer = async (obj: IResultsFeaturesData): Promise<IFeature
             logger.info(`init caching feature layer schema for ${obj.name}.`)
             try {
                 //init an Esri GeoJSON
-                const layerEsri: IFeatureService = Object.assign(require('../../templates/layer.json'));
+                const layerEsri: IFeatureService = Object.assign(require('../../../templates/layer.json'));
                 const layer: IFeatureService = JSON.parse(JSON.stringify(layerEsri));
                 const schemaFields = await getCacheFeatureSchema({ dataset: obj.name, connection: client });
-                layer.name = obj.name;
-                layer.fields = schemaFields;
-                layer.geometryType = obj.geometry;
+                setDefinitionLayer(layer, obj, schemaFields);
                 await redisCache.setAsync(schemaCache, JSON.stringify(layer));
                 redisCache.end();
                 logger.info(`Caching feature layer schema for ${obj.name} finished.`)
@@ -51,9 +50,7 @@ export const getCacheLayer = async (obj: IResultsFeaturesData): Promise<IFeature
             const layerEsri: IFeatureService = Object.assign(require('../../../templates/layer.json'));
             const layer: IFeatureService = JSON.parse(JSON.stringify(layerEsri));
             const schemaFields = await getCacheFeatureSchema({ dataset: obj.name, connection: client });
-            layer.fields = schemaFields;
-            layer.geometryType = obj.geometry;
-            layer.name = obj.name;
+            setDefinitionLayer(layer, obj, schemaFields);
             logger.info(`Getting feature layer schema for ${obj.name} succeed.`);
             return layer;
         }
