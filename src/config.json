@@ -6,14 +6,14 @@
     },
     "elastic": {
         "protocol": "http",
-        "host": "r",
+        "host": "",
         "port": 9200,
         "secure": true,
         "username": "",
         "password": ""
     },
     "redis": {
-        "support": true,
+        "support": false,
         "port": 6379
     }
 }

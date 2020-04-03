@@ -1,0 +1,42 @@
+{
+    "serviceDescription": "This is a feature service from Elasticsearch",
+    "hasVersionedData": false,
+    "supportsDisconnectedEditing": false,
+    "supportedQueryFormats": "JSON",
+    "maxRecordCount": 2000,
+    "hasStaticData": false,
+    "capabilities": "Query",
+    "description": "This is a feature service from Elasticsearch",
+    "copyrightText": "any",
+    "spatialReference": {
+        "wkid": 3857,
+        "latestWkid": 3857
+    },
+    "initialExtent": {
+        "xmin": -180,
+        "ymin": -90,
+        "xmax": 180,
+        "ymax": 90,
+        "spatialReference": {
+            "wkid": 4326,
+            "latestWkid": 4326
+        }
+    },
+    "fullExtent": {
+        "xmin": -180,
+        "ymin": -90,
+        "xmax": 180,
+        "ymax": 90,
+        "spatialReference": {
+            "wkid": 4326,
+            "latestWkid": 4326
+        }
+    },
+    "allowGeometryUpdates": false,
+    "units": "esriDecimalDegrees",
+    "syncEnabled": false,
+    "layers": [
+        0
+    ],
+    "tables": []
+}

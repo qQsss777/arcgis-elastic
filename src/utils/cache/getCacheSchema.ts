@@ -27,7 +27,6 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
                 return schema;
             }
             catch (e) {
-                console.log(e)
                 return { state: false, data: e };
             }
         } else {
@@ -43,7 +42,6 @@ export const getCacheSchema = async (obj: ICacheData): Promise<any> => {
             return schema;
         }
         catch (e) {
-            console.log(e)
             return { state: false, data: e };
         }
     }

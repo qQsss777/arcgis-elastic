@@ -229,6 +229,166 @@
             "date": 1585749293625,
             "name": "ESConnector-2020-04-01-15.log.4",
             "hash": "fb23c51046a9c4a1742e174002668e19"
+        },
+        {
+            "date": 1585804005302,
+            "name": "ESConnector-2020-04-02-07.log",
+            "hash": "7b6f2350139a78c40d56ef47874b2e55"
+        },
+        {
+            "date": 1585908340424,
+            "name": "ESConnector-2020-04-03-12.log",
+            "hash": "4fb2495a11e5aae5d210c4b86bd699c9"
+        },
+        {
+            "date": 1585908717836,
+            "name": "ESConnector-2020-04-03-12.log.1",
+            "hash": "ffe6747eced3678aaa7916899c5d9853"
+        },
+        {
+            "date": 1585908737969,
+            "name": "ESConnector-2020-04-03-12.log.2",
+            "hash": "3847614742d06d7cbcf183963a4b88e3"
+        },
+        {
+            "date": 1585908757009,
+            "name": "ESConnector-2020-04-03-12.log.3",
+            "hash": "f24d9e856fb3bb54f425b2bfa61c2419"
+        },
+        {
+            "date": 1585909053448,
+            "name": "ESConnector-2020-04-03-12.log.4",
+            "hash": "8f80d4aba631a0021433509eac5de8db"
+        },
+        {
+            "date": 1585912536816,
+            "name": "ESConnector-2020-04-03-13.log",
+            "hash": "877805d1293fba893899383165e134b7"
+        },
+        {
+            "date": 1585914068688,
+            "name": "ESConnector-2020-04-03-13.log.1",
+            "hash": "f329197c6e9d2681d6aa5cc70c6246aa"
+        },
+        {
+            "date": 1585914363090,
+            "name": "ESConnector-2020-04-03-13.log.2",
+            "hash": "333634bca4ceda1976ebed5e547342e3"
+        },
+        {
+            "date": 1585914386991,
+            "name": "ESConnector-2020-04-03-13.log.3",
+            "hash": "8fe45c772d6665451c0dbb3c8d787139"
+        },
+        {
+            "date": 1585914563721,
+            "name": "ESConnector-2020-04-03-13.log.4",
+            "hash": "3153cc70bcace36a902942988961c0a2"
+        },
+        {
+            "date": 1585914603383,
+            "name": "ESConnector-2020-04-03-13.log.5",
+            "hash": "b60a586625b3348ee651c836e116baa7"
+        },
+        {
+            "date": 1585914699027,
+            "name": "ESConnector-2020-04-03-13.log.6",
+            "hash": "099fec0f5173ef1d8066bf5a3bb7e62a"
+        },
+        {
+            "date": 1585914793790,
+            "name": "ESConnector-2020-04-03-13.log.7",
+            "hash": "059fb943880a84bcf0d0c86c58289c35"
+        },
+        {
+            "date": 1585914871489,
+            "name": "ESConnector-2020-04-03-13.log.8",
+            "hash": "13ed2847f66419f04f15bcf5155464ad"
+        },
+        {
+            "date": 1585914890471,
+            "name": "ESConnector-2020-04-03-13.log.9",
+            "hash": "830d887faa47c3e159e776e2fd8ab090"
+        },
+        {
+            "date": 1585914932151,
+            "name": "ESConnector-2020-04-03-13.log.10",
+            "hash": "fa0c6145c6cacfab49785ead5beb4a44"
+        },
+        {
+            "date": 1585914950205,
+            "name": "ESConnector-2020-04-03-13.log.11",
+            "hash": "c6a5de172c18b8120e1b84f384444124"
+        },
+        {
+            "date": 1585915072048,
+            "name": "ESConnector-2020-04-03-13.log.12",
+            "hash": "69614fa9f0986006fc35dd08b29dca64"
+        },
+        {
+            "date": 1585915092955,
+            "name": "ESConnector-2020-04-03-13.log.13",
+            "hash": "8d1ee3b6729125195e53e005442b46f1"
+        },
+        {
+            "date": 1585915152129,
+            "name": "ESConnector-2020-04-03-13.log.14",
+            "hash": "26006de54f05ca6a272f2e1ea90b3de0"
+        },
+        {
+            "date": 1585915209970,
+            "name": "ESConnector-2020-04-03-14.log",
+            "hash": "b08404702ebf92115860c316413df904"
+        },
+        {
+            "date": 1585919295363,
+            "name": "ESConnector-2020-04-03-15.log",
+            "hash": "150df3868d716b91514649d401524eb5"
+        },
+        {
+            "date": 1585922401361,
+            "name": "ESConnector-2020-04-03-16.log",
+            "hash": "65c72d141bac22d3f486eb4894bd9450"
+        },
+        {
+            "date": 1585925298735,
+            "name": "ESConnector-2020-04-03-16.log.1",
+            "hash": "e417f7aae6286fab3a5863981c63af46"
+        },
+        {
+            "date": 1585925316939,
+            "name": "ESConnector-2020-04-03-16.log.2",
+            "hash": "74ca5b2a1cafdc93de97fc58abf9b3c2"
+        },
+        {
+            "date": 1585925450100,
+            "name": "ESConnector-2020-04-03-16.log.3",
+            "hash": "80eea83cc4e1eb4cf92da7619500cf74"
+        },
+        {
+            "date": 1585925497821,
+            "name": "ESConnector-2020-04-03-16.log.4",
+            "hash": "dbdc73a865fd6ee22629f3aa29194155"
+        },
+        {
+            "date": 1585925565371,
+            "name": "ESConnector-2020-04-03-16.log.5",
+            "hash": "0e134d5f5666d3aa2340d45039616907"
+        },
+        {
+            "date": 1585925595357,
+            "name": "ESConnector-2020-04-03-16.log.6",
+            "hash": "990d6d1172d39176d965d8cfa8c320bd"
+        },
+        {
+            "date": 1585925910984,
+            "name": "ESConnector-2020-04-03-16.log.7",
+            "hash": "c3345f3d15adb05a04c66e65bbcaaa9b"
+        },
+        {
+            "date": 1585926004723,
+            "name": "ESConnector-2020-04-03-17.log",
+            "hash": "09590b34e13d707ec472b8bb9a100bd1"
         }
     ]
 }

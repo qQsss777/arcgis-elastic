@@ -1,3 +1,44 @@
+export interface IFeatureServer {
+    serviceDescription: string,
+    hasVersionedData: boolean,
+    supportsDisconnectedEditing: boolean,
+    supportedQueryFormats: string,
+    maxRecordCount: number,
+    hasStaticData: boolean,
+    capabilities: string,
+    description: string,
+    copyrightText: string,
+    spatialReference: {
+        wkid: number,
+        latestWkid: number
+    },
+    initialExtent: {
+        xmin: number,
+        ymin: number,
+        xmax: number,
+        ymax: number,
+        spatialReference: {
+            wkid: number,
+            latestWkid: number
+        }
+    },
+    fullExtent: {
+        xmin: number,
+        ymin: number,
+        xmax: number,
+        ymax: number,
+        spatialReference: {
+            wkid: number,
+            latestWkid: number
+        }
+    },
+    allowGeometryUpdates: boolean,
+    units: string,
+    syncEnabled: boolean,
+    layers: number[],
+    tables: number[]
+}
+
 export interface IFeatureService {
     id: number,
     name: string,

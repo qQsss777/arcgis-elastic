@@ -8,8 +8,8 @@
     "hasZ": false,
     "hasM": false,
     "spatialReference": {
-        "wkid": 4326,
-        "latestWkid": 4326
+        "wkid": 3857,
+        "latestWkid": 3857
     },
     "fields": [],
     "features": [],

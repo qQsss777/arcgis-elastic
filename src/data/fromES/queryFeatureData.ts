@@ -6,7 +6,7 @@ import { ISearchResponse } from '../../interfaces/elastic';
 import { formatFeatureServerQuery } from '../../utils';
 import { ILayer } from '../../interfaces/esri';
 import { logger } from '../../logger';
-import { purgeQuery } from './purgeQuery';
+import { purgeQuery } from '../../utils';
 
 export const queryFeatureData = async (obj: IDataSearch): Promise<ILayer | number> => {
     logger.info(`Configure parameters query for ${obj.dataset} feature layer`)
@@ -17,7 +17,7 @@ export const queryFeatureData = async (obj: IDataSearch): Promise<ILayer | numbe
         const response: ApiResponse<ISearchResponse<any>> = await client.search({
             index: obj.dataset,
             body: queryEs,
-            size: 10000
+            size: 5000
         });
         logger.info(`Getting data from ES for ${obj.dataset} finished.`)
         return await formatFeatureServerQuery({ fields: fields, source: response.body.hits.hits, name: obj.dataset })
