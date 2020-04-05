@@ -54,3 +54,9 @@ export interface IMultimatch {
     fields: Array<string>;
 }
 
+export interface IQueryWhere {
+    where: any;
+    geometry: any;
+    geometryType: string
+    count: boolean
+}

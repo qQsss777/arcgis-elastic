@@ -3,7 +3,7 @@
     "hasVersionedData": false,
     "supportsDisconnectedEditing": false,
     "supportedQueryFormats": "JSON",
-    "maxRecordCount": 2000,
+    "maxRecordCount": 10000,
     "hasStaticData": false,
     "capabilities": "Query",
     "description": "This is a feature service from Elasticsearch",

@@ -9,6 +9,8 @@ import { logger } from '../../../logger';
 export const formatFeatureServerQuery = async (obj: IResultsFeaturesData): Promise<ILayer | number> => {
     logger.info(`get mapping informations for ${obj.name}`)
     const jsonSource = obj.source.map(hit => hit["_source"]);
+    const featuresEsri: ILayer = Object.assign(require('../../../../templates/features.json'));
+    const features: ILayer = JSON.parse(JSON.stringify(featuresEsri));
     if (jsonSource.length > 0) {
         try {
             //get info for date fields en geometry type
@@ -20,8 +22,7 @@ export const formatFeatureServerQuery = async (obj: IResultsFeaturesData): Promi
             const typeGeom = await typeOfGeom(jsonSource[0], geom[0])
 
             //init an Esri GeoJSON
-            const featuresEsri: ILayer = Object.assign(require('../../../../templates/features.json'));
-            const features: ILayer = JSON.parse(JSON.stringify(featuresEsri));
+
             features.fields = layer.fields;
             //push features to the Esri GeoJSON
             for (let i = 0; i < jsonSource.length; i++) {
@@ -38,7 +39,7 @@ export const formatFeatureServerQuery = async (obj: IResultsFeaturesData): Promi
             throw new Error(e)
         }
     } else {
-        return 404
+        return features;
     }
 };
 

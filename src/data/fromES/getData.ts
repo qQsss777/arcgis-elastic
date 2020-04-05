@@ -19,7 +19,7 @@ export const getData = async (obj: IDataSearch): Promise<IFeaturesCollection | I
         const response: ApiResponse<ISearchResponse<any>> = await client.search({
             index: obj.dataset,
             body: queryEs,
-            size: 5000
+            size: 10000
         });
         logger.info(`Query for ES finished.`);
         //format response to GeoJSON

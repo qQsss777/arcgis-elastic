@@ -20,3 +20,8 @@ featureserverRouter
         const results = await getLayerData({ dataset: ctx.params[0], url: ctx.url, query: ctx.query });
         results !== 404 ? ctx.body = results : ctx.response.status = results;
     })
+
+    .get(/^\/(.*)(?:\/FeatureServer\/0\/0\/query)/, async (ctx, next) => {
+        const results = await getLayerData({ dataset: ctx.params[0], url: ctx.url, query: ctx.query });
+        results !== 404 ? ctx.body = results : ctx.response.status = results;
+    })

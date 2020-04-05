@@ -1,43 +1,47 @@
-export const purgeQuery = async (query: any): Promise<any> => {
-    //first delete useless params
-    query.f ? delete query.f : null;
-    query.maxAllowableOffset ? delete query.maxAllowableOffset : null;
-    query.outFields ? delete query.outFields : null;
-    query.inSR ? delete query.inSR : null;
-    query.returnExceededLimitFeatures ? delete query.returnExceededLimitFeatures : null;
-    query.spatialRel ? delete query.spatialRel : null;
-    query.geometryType ? delete query.geometryType : null;
-    query.maxRecordCountFactor ? delete query.maxRecordCountFactor : null;
-    query.outSR ? delete query.outSR : null;
-    query.geometry ? delete query.geometry : null;
-    query.where === '1=1' ? delete query.where : null;
-    query.resultOffset ? delete query.resultOffset : null;
-    query.resultType ? delete query.resultType : null;
-    query.returnCountOnly ? delete query.returnCountOnly : null;
-    query.returnIdsOnly ? delete query.returnIdsOnly : null;
-    query.resultRecordCount ? delete query.resultRecordCount : null;
-    if (query.limit) {
-        delete query.resultRecordCount
-        delete query.limit
-    }
-    return query;
-}
+import { IQueryWhere } from "../../interfaces/elastic";
+import proj4 = require("proj4");
 
-/*
-"filter" : {
-    "geo_bounding_box" : {
-        "pin.location" : {
-            "top_left" : {
-                "lat" : 40.73,
-                "lon" : -74.1
-            },
-            "bottom_right" : {
-                "lat" : 40.01,
-                "lon" : -71.12
+export const purgeQuery = async (query: any): Promise<IQueryWhere> => {
+    //first create new query object for ES
+    let newQuery: IQueryWhere = {
+        where: {},
+        geometry: {},
+        geometryType: '',
+        count: false
+    };
+    newQuery.count = query.returnCountOnly;
+    if (query.where !== '1=1' && query.where) {
+        newQuery.where = query.where;
+    } else {
+        newQuery.where = {};
+    }
+
+    if (query.geometryType === 'esriGeometryEnvelope' && Object.keys(newQuery.where).length > 0) {
+        newQuery.geometryType = 'envelope';
+        try {
+            const geometry = JSON.parse(query.geometry)
+            const x = proj4('EPSG:3857', 'EPSG:4326', [geometry.xmin, geometry.xmax]);
+            const y = proj4('EPSG:3857', 'EPSG:4326', [geometry.ymin, geometry.ymax]);
+            const coordinates = [
+                [
+                    [x[0], y[1]],
+                    [x[0], y[0]],
+                    [x[1], y[0]],
+                    [x[1], y[1]],
+                    [x[0], y[1]]
+                ]
+            ]
+            const bbox = {
+                shape: {
+                    type: "Polygon",
+                    coordinates,
+                },
+                relation: "INTERSECTS"
             }
+            newQuery.geometry = bbox
+        }
+        catch (e) {
         }
     }
+    return newQuery;
 }
-}
-
-*/
